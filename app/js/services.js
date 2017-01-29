@@ -40,21 +40,21 @@ analyticsServices.factory('SessionInfo',
 
 
 		 		try {
-	                var kmc = window.parent.kmc;
-	                if (kmc && kmc.vars) {
-	                    if (kmc.vars.ks)
-	                        sessionInfo.ks = kmc.vars.ks;
-	                    if (kmc.vars.partner_id)
-	                    	sessionInfo.pid = kmc.vars.partner_id;
-	                    if (kmc.vars.service_url) 
-	                    	sessionInfo.service_url = kmc.vars.service_url;
-	                    if (kmc.vars.liveanalytics) {
-							sessionInfo.uiconfid = kmc.vars.liveanalytics.player_id;
-							if (kmc.vars.liveanalytics.map_urls) {
-								sessionInfo.map_urls = kmc.vars.liveanalytics.map_urls;
+	                var bmc = window.parent.bmc;
+	                if (bmc && bmc.vars) {
+	                    if (bmc.vars.ks)
+	                        sessionInfo.ks = bmc.vars.ks;
+	                    if (bmc.vars.partner_id)
+	                    	sessionInfo.pid = bmc.vars.partner_id;
+	                    if (bmc.vars.service_url) 
+	                    	sessionInfo.service_url = bmc.vars.service_url;
+	                    if (bmc.vars.liveanalytics) {
+							sessionInfo.uiconfid = bmc.vars.liveanalytics.player_id;
+							if (bmc.vars.liveanalytics.map_urls) {
+								sessionInfo.map_urls = bmc.vars.liveanalytics.map_urls;
 							}
-							if (kmc.vars.liveanalytics.map_zoom_levels) {
-								var n = parseInt(kmc.vars.liveanalytics.map_zoom_levels);
+							if (bmc.vars.liveanalytics.map_zoom_levels) {
+								var n = parseInt(bmc.vars.liveanalytics.map_zoom_levels);
 								if (n > 0) {
 									sessionInfo.map_zoom_levels = n;
 								}
@@ -64,7 +64,7 @@ analyticsServices.factory('SessionInfo',
 
 	                }
 	            } catch (e) {
-	                console.log('Could not locate parent.kmc: ' + e);
+	                console.log('Could not locate parent.bmc: ' + e);
 	            }
 	            
 	       /*     if (!sessionInfo.ks) { //navigate to login
@@ -127,7 +127,7 @@ analyticsServices.factory('KApi',
 			 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			 		}).success(function (data, status) {
 						if (KApi.redirectToLoginOnInvalidKS) {
-							if (data.objectType === "KalturaAPIException") {
+							if (data.objectType === "BorhanAPIException") {
 								if (data.code == "INVALID_KS") {
 									console.log(data);
 									$location.path("/login");
@@ -198,11 +198,11 @@ analyticsServices.factory('DashboardSvc',
 		 		DashboardSvc.getDeadAggregates = function getDeadAggregates() {
 		 			var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveReportInputFilter',
+						'filter:objectType': 'BorhanLiveReportInputFilter',
 			            'filter:fromTime': DashboardSvc.HOURS_AGO_IN_SEC,
 			            'filter:toTime': '-2',
 			            'filter:live': '0',
-			            'pager:objectType': 'KalturaFilterPager',
+			            'pager:objectType': 'BorhanFilterPager',
 			            'pager:pageIndex': '1',
 			            'pager:pageSize': DashboardSvc.pageSize,
 			            'reportType': 'PARTNER_TOTAL',
@@ -214,7 +214,7 @@ analyticsServices.factory('DashboardSvc',
 		 		};
 		 		
 		 		/**
-		 		 * get info for dashboard aggregates line - for currently live Kaltura-live entries 
+		 		 * get info for dashboard aggregates line - for currently live Borhan-live entries 
 		 		 * @returns promise
 		 		 */
 		 		DashboardSvc.getLiveAggregates = function getLiveAggregates() {
@@ -228,33 +228,33 @@ analyticsServices.factory('DashboardSvc',
 		 					'ignoreNull': '1',
 		 					'service': 'multirequest',
 		 					// 1 - audience - now
-		 					'1:filter:objectType': 'KalturaLiveReportInputFilter',
+		 					'1:filter:objectType': 'BorhanLiveReportInputFilter',
 		 					'1:filter:fromTime': '-60',
 		 					'1:filter:toTime': '-60',
 		 					'1:filter:live': '1',
-		 					'1:pager:objectType': 'KalturaFilterPager',
+		 					'1:pager:objectType': 'BorhanFilterPager',
 		 					'1:pager:pageIndex': '1',
 		 					'1:pager:pageSize': DashboardSvc.pageSize,
 		 					'1:reportType': 'PARTNER_TOTAL',
 		 					'1:service': 'livereports',
 		 					'1:action': 'getreport',
 	 						// 2 - minutes viewed - 36 hours
-	 						'2:filter:objectType': 'KalturaLiveReportInputFilter',
+	 						'2:filter:objectType': 'BorhanLiveReportInputFilter',
 	 						'2:filter:fromTime': DashboardSvc.HOURS_AGO_IN_SEC,
 	 						'2:filter:toTime': '-2',
 	 						'2:filter:live': '1',
-	 						'2:pager:objectType': 'KalturaFilterPager',
+	 						'2:pager:objectType': 'BorhanFilterPager',
 	 						'2:pager:pageIndex': '1',
 	 						'2:pager:pageSize': DashboardSvc.pageSize,
 	 						'2:reportType': 'PARTNER_TOTAL',
 	 						'2:service': 'livereports',
 	 						'2:action': 'getreport',
  							// 3 - buffertime, bitrate - 1 minute
- 							'3:filter:objectType': 'KalturaLiveReportInputFilter',
+ 							'3:filter:objectType': 'BorhanLiveReportInputFilter',
  							'3:filter:fromTime': '-60',
  							'3:filter:toTime': '-2',
  							'3:filter:live': '1',
- 							'3:pager:objectType': 'KalturaFilterPager',
+ 							'3:pager:objectType': 'BorhanFilterPager',
  							'3:pager:pageIndex': '1',
  							'3:pager:pageSize': DashboardSvc.pageSize,
  							'3:reportType': 'PARTNER_TOTAL',
@@ -273,11 +273,11 @@ analyticsServices.factory('DashboardSvc',
 		 		DashboardSvc._getAllEntriesStats = function _getAllEntriesStats(pageNumber) {
 					var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveReportInputFilter',
+						'filter:objectType': 'BorhanLiveReportInputFilter',
 			            'filter:orderBy': '%2Bname',
 			            'filter:fromTime': DashboardSvc.HOURS_AGO_IN_SEC,
 			            'filter:toTime': '-2',
-			            'pager:objectType': 'KalturaFilterPager',
+			            'pager:objectType': 'BorhanFilterPager',
 			            'pager:pageIndex': pageNumber,
 			            'pager:pageSize': DashboardSvc.pageSize,
 			            'reportType': 'ENTRY_TOTAL',
@@ -295,7 +295,7 @@ analyticsServices.factory('DashboardSvc',
 		 		DashboardSvc._getAllEntriesEntries = function _getAllEntriesEntries(entryIds) {
 		 			var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveStreamEntryFilter',
+						'filter:objectType': 'BorhanLiveStreamEntryFilter',
 						'filter:idIn': entryIds,
 			            'filter:orderBy': '-createdAt',
 			            'service': 'livestream',
@@ -315,7 +315,7 @@ analyticsServices.factory('DashboardSvc',
 		            var deferred = $q.defer();
 		            
 		            DashboardSvc._getAllEntriesStats(pageNumber).then(function (entryStats) {
-						// entryStats is KalturaLiveStatsListResponse
+						// entryStats is BorhanLiveStatsListResponse
 						var ids = '';
 						if (entryStats.totalCount > 0) {
 							entryStats.objects.forEach(function(entry) {
@@ -358,10 +358,10 @@ analyticsServices.factory('DashboardSvc',
 				DashboardSvc._getLiveEntriesEntries = function _getLiveEntriesEntries(pageNumber) {
 					var postData = {
 				            'filter:orderBy': '%2Bname',
-				            'filter:objectType': 'KalturaLiveStreamEntryFilter',
+				            'filter:objectType': 'BorhanLiveStreamEntryFilter',
 				            'filter:isLive': '1',
 				            'ignoreNull': '1',
-				            'pager:objectType': 'KalturaFilterPager',
+				            'pager:objectType': 'BorhanFilterPager',
 				            'pager:pageIndex': pageNumber,
 				            'pager:pageSize': DashboardSvc.pageSize,
 				            'service': 'livestream',
@@ -380,7 +380,7 @@ analyticsServices.factory('DashboardSvc',
 						'ignoreNull': '1',
 						'service': 'multirequest',
 						// 1 - minutes viewed - 36 hours - will have most results (entries)
-			            '1:filter:objectType': 'KalturaLiveReportInputFilter',
+			            '1:filter:objectType': 'BorhanLiveReportInputFilter',
 			            '1:filter:orderBy': '-eventTime',
 			            '1:filter:entryIds': entryIds,
 			            '1:filter:live': 1,
@@ -390,7 +390,7 @@ analyticsServices.factory('DashboardSvc',
 			            '1:service': 'livereports',
 			            '1:action': 'getreport',
 						// 2 - audience - now
-						'2:filter:objectType': 'KalturaLiveReportInputFilter',
+						'2:filter:objectType': 'BorhanLiveReportInputFilter',
 			            '2:filter:orderBy': '-eventTime',
 			            '2:filter:entryIds': entryIds,
 			            '2:filter:live': 1,
@@ -400,7 +400,7 @@ analyticsServices.factory('DashboardSvc',
 			            '2:service': 'livereports',
 			            '2:action': 'getreport',
 			            // 3 - buffertime, bitrate - 1 minute
-			            '3:filter:objectType': 'KalturaLiveReportInputFilter',
+			            '3:filter:objectType': 'BorhanLiveReportInputFilter',
 			            '3:filter:orderBy': '-eventTime',
 			            '3:filter:entryIds': entryIds,
 			            '3:filter:live': 1,
@@ -432,7 +432,7 @@ analyticsServices.factory('DashboardSvc',
 							}); 
 							ids = ids.substr(0, ids.length - 1);
 							DashboardSvc._getLiveEntriesStats(ids).then(function(entryStatsMR) {
-								// entryStatsMR is MR with KalturaLiveStatsListResponse
+								// entryStatsMR is MR with BorhanLiveStatsListResponse
 								var hours = entryStatsMR[0].objects;
 								var now = entryStatsMR[1].objects; 
 								var minute = entryStatsMR[2].objects;
@@ -511,10 +511,10 @@ analyticsServices.factory('DashboardSvc',
 						'ignoreNull': '1',
 			            'service': 'livereports',
 			            'action': 'exporttocsv',
-			            'params:objectType': 'KalturaLiveReportExportParams',
+			            'params:objectType': 'BorhanLiveReportExportParams',
 			            'params:timeZoneOffset': d.getTimezoneOffset(),
 						'params:applicationUrlTemplate': KApi.getExportHandlerUrl(),
-			            'reportType': liveOnly ? '2' : '1' // KalturaLiveReportExportType.PARTNER_TOTAL_LIVE/PARTNER_TOTAL_ALL
+			            'reportType': liveOnly ? '2' : '1' // BorhanLiveReportExportType.PARTNER_TOTAL_LIVE/PARTNER_TOTAL_ALL
 			        };
 					return KApi.doRequest(postData);
 		 		};
@@ -558,23 +558,23 @@ analyticsServices.factory('EntrySvc',
 					
 		 			KApi.doRequest(postData).then(function (mr) {
 						// the last 3 results are all current optional protocols.
-						if (mr[0].objectType != "KalturaAPIException") {
+						if (mr[0].objectType != "BorhanAPIException") {
 							if (mr[0].sourceType == 31) {
-								// Kaltura_Client_Enum_SourceType.AKAMAI_UNIVERSAL_LIVE
+								// Borhan_Client_Enum_SourceType.AKAMAI_UNIVERSAL_LIVE
 								var livehdnetwork = true;
-								if (!mr[3] || mr[3].objectType == "KalturaAPIException") {
+								if (!mr[3] || mr[3].objectType == "BorhanAPIException") {
 									livehdnetwork = false;
 								}
 								mr[0].isLive = livehdnetwork;
 							}
 							else if (mr[0].sourceType == 32) {
-								// Kaltura_Client_Enum_SourceType.LIVE_STREAM
+								// Borhan_Client_Enum_SourceType.LIVE_STREAM
 								var livehds = true;
-								if (!mr[1] || mr[1].objectType == "KalturaAPIException") {
+								if (!mr[1] || mr[1].objectType == "BorhanAPIException") {
 									livehds = false;
 								}
 								var livehls = true;
-								if (!mr[2] || mr[2].objectType == "KalturaAPIException") {
+								if (!mr[2] || mr[2].objectType == "BorhanAPIException") {
 									livehls = false;
 								}
 								mr[0].isLive = livehds || livehls;
@@ -594,12 +594,12 @@ analyticsServices.factory('EntrySvc',
 		 		/**
 		 		 * get aggregated stats data for this entry as a dead-now entry
 		 		 * @param entryId
-		 		 * @returns KalturaEntryLiveStats 
+		 		 * @returns BorhanEntryLiveStats 
 		 		 */
 		 		EntrySvc.getDeadAggregates = function getDeadAggregates(entryId) {
 		 			var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveReportInputFilter',
+						'filter:objectType': 'BorhanLiveReportInputFilter',
 						'filter:fromTime': EntrySvc.HOURS_AGO_IN_SEC,
 			            'filter:toTime': '-2',
 			            'filter:entryIds': entryId,
@@ -616,7 +616,7 @@ analyticsServices.factory('EntrySvc',
 		 		/**
 		 		 * get aggregated stats data for this entry as a live-now entry
 		 		 * @param entryId
-		 		 * @returns KalturaEntryLiveStats 
+		 		 * @returns BorhanEntryLiveStats 
 		 		 */
 		 		EntrySvc.getLiveAggregates = function getLiveAggregates(entryId) {
 		 			/* MR:
@@ -629,7 +629,7 @@ analyticsServices.factory('EntrySvc',
 		 					'ignoreNull': '1',
 		 					'service': 'multirequest',
 		 					// 1 - audience - now
-		 					'1:filter:objectType': 'KalturaLiveReportInputFilter',
+		 					'1:filter:objectType': 'BorhanLiveReportInputFilter',
 		 					'1:filter:fromTime': '-60',
 		 					'1:filter:toTime': '-60',
 		 					'1:filter:live': '1',
@@ -638,7 +638,7 @@ analyticsServices.factory('EntrySvc',
 		 					'1:service': 'livereports',
 		 					'1:action': 'getreport',
 	 						// 2 - minutes viewed - 36 hours
-	 						'2:filter:objectType': 'KalturaLiveReportInputFilter',
+	 						'2:filter:objectType': 'BorhanLiveReportInputFilter',
 	 						'2:filter:fromTime': EntrySvc.HOURS_AGO_IN_SEC,
 	 						'2:filter:toTime': '-2',
 	 						'2:filter:live': '1',
@@ -647,7 +647,7 @@ analyticsServices.factory('EntrySvc',
 	 						'2:service': 'livereports',
 	 						'2:action': 'getreport',
  							// 3 - buffertime, bitrate - 1 minute
- 							'3:filter:objectType': 'KalturaLiveReportInputFilter',
+ 							'3:filter:objectType': 'BorhanLiveReportInputFilter',
  							'3:filter:fromTime': '-60',
  							'3:filter:toTime': '-2',
  							'3:filter:live': '1',
@@ -669,11 +669,11 @@ analyticsServices.factory('EntrySvc',
 		 		EntrySvc.getReferrers = function getReferrers(entryId) {
 		 			var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveReportInputFilter',
+						'filter:objectType': 'BorhanLiveReportInputFilter',
 						'filter:fromTime': EntrySvc.HOURS_AGO_IN_SEC,
 			            'filter:toTime': '-2',
 			            'filter:entryIds': entryId,
-			            'pager:objectType': 'KalturaFilterPager',
+			            'pager:objectType': 'BorhanFilterPager',
 			            'pager:pageIndex': '1',
 			            'pager:pageSize': '10',
 			            'reportType': 'ENTRY_SYNDICATION_TOTAL',
@@ -696,7 +696,7 @@ analyticsServices.factory('EntrySvc',
 		 		EntrySvc.getGraph = function getGraph(entryId, fromDate, toDate) {
 		 			var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveReportInputFilter',
+						'filter:objectType': 'BorhanLiveReportInputFilter',
 						'filter:fromTime': fromDate,
 			            'filter:toTime': toDate,
 			            'filter:entryIds': entryId,
@@ -719,12 +719,12 @@ analyticsServices.factory('EntrySvc',
 		 		EntrySvc.getMap = function getMap(entryId, time) {
 		 			var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveReportInputFilter',
+						'filter:objectType': 'BorhanLiveReportInputFilter',
 						'filter:fromTime': time,
 			            'filter:toTime': time,
 			            'filter:entryIds': entryId,
-						'filter:orderBy' : '-audience', //KalturaLiveReportOrderBy.AUDIENCE_DESC
-						'pager:objectType': 'KalturaFilterPager',
+						'filter:orderBy' : '-audience', //BorhanLiveReportOrderBy.AUDIENCE_DESC
+						'pager:objectType': 'BorhanFilterPager',
 						'pager:pageIndex': '1',
 						'pager:pageSize': '1000',
 			            'reportType': 'ENTRY_GEO_TIME_LINE',
@@ -738,7 +738,7 @@ analyticsServices.factory('EntrySvc',
 		 		
 		 		/**
 		 		 * trigger entry export to csv
-		 		 * @param reportType as enumerated in KalturaLiveReportExportType
+		 		 * @param reportType as enumerated in BorhanLiveReportExportType
 		 		 * @param entryId 
 		 		 */
 		 		EntrySvc.export2csv = function export2csv(reportType, entryId) {
@@ -747,7 +747,7 @@ analyticsServices.factory('EntrySvc',
 						'ignoreNull': '1',
 			            'service': 'livereports',
 			            'action': 'exporttocsv',
-			            'params:objectType': 'KalturaLiveReportExportParams',
+			            'params:objectType': 'BorhanLiveReportExportParams',
 			            'params:timeZoneOffset': d.getTimezoneOffset(),
 			            'params:entryIds': entryId,
 						'params:applicationUrlTemplate': KApi.getExportHandlerUrl(),
@@ -769,7 +769,7 @@ analyticsServices.factory('EntrySvc',
 						'ignoreNull': '1',
 						'service': 'cuepoint_cuepoint',
 						'action': 'list',
-						'filter:objectType': 'KalturaEventCuePointFilter',
+						'filter:objectType': 'BorhanEventCuePointFilter',
 						'filter:entryIdEqual': entryId,
 						'filter:orderBy': '%2BstartTime'
 					};

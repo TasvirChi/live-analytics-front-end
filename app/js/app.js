@@ -27,7 +27,7 @@ liveAnalytics.config(['$routeProvider', '$translateProvider', function($routePro
 		controller: 'ExportCtrl'
 	});
 	$routeProvider.when('/login', {
-		template: '<script>window.parent.kmc.functions.expired();</script><div class="page container"><br/><p>invalid ks</p></div>' 
+		template: '<script>window.parent.bmc.functions.expired();</script><div class="page container"><br/><p>invalid ks</p></div>' 
 	});
 	$routeProvider.otherwise({redirectTo: '/dashboard'});
 	

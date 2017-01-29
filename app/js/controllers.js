@@ -72,7 +72,7 @@ analyticsControllers.controller('DashboardCtrl', ['$rootScope', '$scope', '$inte
 		
 		
 		/**
-		 * @param liveOnly	fetch KalturaLive currently live (true) or all live entries (false)
+		 * @param liveOnly	fetch BorhanLive currently live (true) or all live entries (false)
 		 * @param pageNumber index of page to fetch
 		 */
 		var getEntries = function getEntries(liveOnly, pageNumber) {

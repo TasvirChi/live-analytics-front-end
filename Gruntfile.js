@@ -13,9 +13,9 @@ module.exports = function(grunt) {
     	targetDir: "v<%= pkg.version %>"
     },
     meta: {
-      banner: '/*! KMC Live Analytics - v<%= pkg.version %> - ' +
+      banner: '/*! BMC Live Analytics - v<%= pkg.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        '* https://github.com/kaltura/LiveAnalytics\n' +
+        '* https://github.com/borhan/LiveAnalytics\n' +
         '* Copyright (c) <%= grunt.template.today("yyyy") %> ' +
         'Atar Shadmi; Licensed GNU */\n'
     },
@@ -39,8 +39,8 @@ module.exports = function(grunt) {
       },
       libs: {
             src: [
-                'app/lib/kaltura/KHoverDetail.js',
-                'app/lib/kaltura/KTime_Local.js'
+                'app/lib/borhan/KHoverDetail.js',
+                'app/lib/borhan/KTime_Local.js'
             ],
             dest: '<%= options.targetDir %>/js/libs.js'
       }

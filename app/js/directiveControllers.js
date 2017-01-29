@@ -5,7 +5,7 @@
 var analyticsControllers = angular.module('analyticsControllers'); // get, don't create!!
 
 /**
- * controller for KDP on entry page
+ * controller for BDP on entry page
  */
 analyticsControllers.controller('KPlayerController', ['$scope', '$attrs', '$interval', 'EntrySvc', 'SessionInfo',
     function($scope, $attrs, $interval, EntrySvc, SessionInfo) {
@@ -55,12 +55,12 @@ analyticsControllers.controller('KPlayerController', ['$scope', '$attrs', '$inte
 
 
   		$scope.$on('gotoTime', function (event, time) {
-			var kdp = angular.element('#kplayer')[0];
-			if (self.canSeek && kdp) {
+			var bdp = angular.element('#kplayer')[0];
+			if (self.canSeek && bdp) {
 				// translate timestamp to entry time, go to correct time.
 				var playerTime = self.getPlayerTime(time, $scope.entry.firstBroadcast);
 				if (playerTime < $scope.entry.duration) {
-					kdp.sendNotification("doSeek", playerTime);
+					bdp.sendNotification("doSeek", playerTime);
 				}
 			}
   		});
@@ -68,7 +68,7 @@ analyticsControllers.controller('KPlayerController', ['$scope', '$attrs', '$inte
 
   		$scope.$watch('playerEntryId', function( value ) {
   			function embedNow() {
-  				kWidget.embed({
+  				bWidget.embed({
   					"targetId": "kplayer",
   					"wid": "_" + $scope.pid,
   					"uiconf_id": $scope.uiconfId,

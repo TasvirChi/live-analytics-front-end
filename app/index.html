@@ -21,14 +21,14 @@
 <script>
 	window.lang = 'de_DE';
 	window.parent = {};
-	window.parent.kmc = {};
-	window.parent.kmc.functions = {
+	window.parent.bmc = {};
+	window.parent.bmc.functions = {
 			expired: function() {
 				alert('login, here I come!');
 			}
 	};
 	
-	window.parent.kmc.vars = {
+	window.parent.bmc.vars = {
 
 		ks : 'YOUR_KS',
 		partner_id : 'YOUR_PID',
@@ -43,7 +43,7 @@
 
 </head>
 <body >
-<div class="kmcSubNav" ng-class="{hidden : nonav}" ng-cloak >
+<div class="bmcSubNav" ng-class="{hidden : nonav}" ng-cloak >
 	<a href="javascript:navigateToFlashAnalytics('contentDashboard')" class="btn">{{'main.Content_Reports' | translate}}</a>
 	<a href="javascript:navigateToFlashAnalytics('usersandCommunity')" class="btn">{{'main.Community_Reports' | translate}}</a>
 	<a href="javascript:navigateToFlashAnalytics('usageTabTitle')" class="btn">{{'main.Storage_Reports' | translate}}</a>
@@ -68,19 +68,19 @@
 				var key = ar2[0];
 				switch (key) {
 					case 'player':
-						window.parent.kmc.vars.liveanalytics.player_id = ar2[1];
+						window.parent.bmc.vars.liveanalytics.player_id = ar2[1];
 						break;
 					case 'pid':
-						window.parent.kmc.vars.partner_id = ar2[1];
+						window.parent.bmc.vars.partner_id = ar2[1];
 						break;
 					case 'ks':
-						window.parent.kmc.vars.ks = ar2[1];
+						window.parent.bmc.vars.ks = ar2[1];
 						break;
 					case 'svc':
-						window.parent.kmc.vars.service_url = window.location.protocol + "//" + ar2[1];
+						window.parent.bmc.vars.service_url = window.location.protocol + "//" + ar2[1];
 						break;
 					case 'cdn':
-						window.parent.kmc.vars.cdn_host = ar2[1];
+						window.parent.bmc.vars.cdn_host = ar2[1];
 						break;
 
 				}
@@ -92,9 +92,9 @@
 		var oHead = document.getElementsByTagName('head').item(0);
 		var oScript= document.createElement("script");
 		oScript.type = "text/javascript";
-		var pid = window.parent.kmc.vars.partner_id;
-		var uiconfid = window.parent.kmc.vars.liveanalytics.player_id;
-		oScript.src=window.location.protocol + "//" + window.parent.kmc.vars.cdn_host + "/p/"+pid+"/sp/"+pid+"00/embedIframeJs/uiconf_id/"+uiconfid+"/partner_id/"+pid;
+		var pid = window.parent.bmc.vars.partner_id;
+		var uiconfid = window.parent.bmc.vars.liveanalytics.player_id;
+		oScript.src=window.location.protocol + "//" + window.parent.bmc.vars.cdn_host + "/p/"+pid+"/sp/"+pid+"00/embedIframeJs/uiconf_id/"+uiconfid+"/partner_id/"+pid;
 		oScript.onload = plrCallback;
 		oHead.appendChild( oScript);
 		
@@ -126,8 +126,8 @@
 	<script src="lib/rickshaw/d3.v3.js"></script>
 	<script src="lib/rickshaw/d3.layout.min.js"></script>
 
-	<script src="lib/kaltura/KHoverDetail.js"></script>
-	<script src="lib/kaltura/KTime_Local.js"></script>
+	<script src="lib/borhan/KHoverDetail.js"></script>
+	<script src="lib/borhan/KTime_Local.js"></script>
 	
 	<!-- openLayers maps -->
 	<script src="lib/OpenLayers-2.13.1/OpenLayers.debug.js"></script>

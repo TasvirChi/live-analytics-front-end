@@ -177,7 +177,7 @@ analyticsControllers.controller('RGraphController', ['$scope', '$attrs', 'EntryS
 					if (!$scope.entry.isLive) {
 						var firstBroadcast = parseInt($scope.entry.firstBroadcast, 10);
 						// trim data edges:
-						if (!isNaN(firstBroadcast)) {	// non-kaltura don't have firstBroadcast
+						if (!isNaN(firstBroadcast)) {	// non-borhan don't have firstBroadcast
 							for (var i = 0; i < objects.audience.length; i++) {
 								if (objects.audience[i].timestamp >= firstBroadcast) {
 									break;
@@ -309,7 +309,7 @@ analyticsControllers.controller('RGraphController', ['$scope', '$attrs', 'EntryS
 		 * @param time (timestamp sec)
 		 */
 		var setupScreenHandler = function setupScreenHandler(event, time) {
-			dvrEnabledForEntry = $scope.entry.dvrStatus == 1 // KalturaDVRStatus.ENABLED
+			dvrEnabledForEntry = $scope.entry.dvrStatus == 1 // BorhanDVRStatus.ENABLED
 			if (!dvrEnabledForEntry) {
 				series.pop();
 			}
